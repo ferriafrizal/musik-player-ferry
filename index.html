@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Baloo Bhaina', cursive;
+            background-color: #007bff;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .player {
+            background-color: #e0f7fa; /* Warna latar belakang untuk pemutar */
+            color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+        }
+        h1, h2 { margin: 0; }
+        select {
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            background-color: #1E88E5; /* Warna biru untuk kotak pilih lagu */
+            color: #fff; /* Warna teks putih untuk kotak */
+        }
+        select option {
+            background-color: #1E88E5; /* Warna latar belakang untuk opsi */
+            color: #fff; /* Warna teks putih untuk opsi */
+        }
+        input[type="range"], input[type="text"] {
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: 1px solid #ddd; 
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff; 
+            color: #fff; 
+            border: none; 
+            border-radius: 4px; 
+            padding: 10px 15px; 
+            cursor: pointer; 
+            margin: 5px;
+        }
+        button:hover { background-color: #0056b3; }
+        #progressBar, #volumeBar {
+            width: 100%; 
+            appearance: none; 
+            height: 8px; 
+            background: #ddd; 
+            border-radius: 5px;
+        }
+        #volumeBar { margin-top: 10px; }
+        #progressBar::-webkit-slider-thumb, #volumeBar::-webkit-slider-thumb {
+            width: 20px; 
+            height: 20px; 
+            background: #007bff; 
+            border-radius: 50%; 
+            cursor: pointer;
+        }
+        .notification {
+            display: none; 
+            margin-top: 10px; 
+            color: red;
+        }
+        .theme-toggle {
+            cursor: pointer; 
+            margin: 10px; 
+            padding: 10px; 
+            background: #fff; 
+            color: #007bff; 
+            border: none; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>MUSIK PLAYER</h1>
+        <h3>Author by: Ferry Afrizal</h3>
+    </div>
+    <article class="player">
+        <label for="playlist"><h2>Pilih Lagu:</h2></label>
+        <select id="playlist" onchange="changeSong()">
+            <option value="music/Flux-Pavilion-I-Cant-Stop.mp3">I Can't Stop - Flux Pavilion</option>
+            <option value="music/SaveTube.io - a little piece of heaven - avenged sevenfold (cover) by Dea (128 kbps).mp3">a little piece of heaven</option>
+            <option value="music/SaveTube.io - AVANGARD (Slowed) (128 kbps).mp3">AVANGARD (Slowed)</option>
+            <option value="music/SaveTube.io - SaveTube.io - Halsey - _WITHOUT ME_ - (DRILL REMIX) - Prod. 2xZ (128 kbps).mp3">WITHOUT ME</option>
+            <option value="music/SaveTube.io - Indila - Love Story (Lyrics) (128 kbps).mp3">Love Story</option>
+            <option value="music/SaveTube.io - J Rizzy Ft Ellen Quilty - Love Again (Official Lyrics) (128 kbps).mp3">Love Again</option>
+            <option value="music/SaveTube.io - Lexnour - Say Goodbye (Official Music Video) (128 kbps).mp3">Say Goodbye</option>
+            <option value="music/SaveTube.io - One Ok Rock - Stand Out Fit In _ Lirik Terjemahan (128 kbps).mp3">Stand Out Fit In - One Ok Rock</option>
+            <option value="music/SaveTube.io - The Cranberries - Zombie ( cover by J.Fla ) (128 kbps).mp3">Zombie - The Cranberries</option>
+            <option value="music/SaveTube.io - Tiësto, Dimitri Vegas & Like Mike, Gabry Ponte - Mockingbird (Official Lyric Video) (128 kbps).mp3">Mockingbird - Tiësto, Dimitri Vegas & Like Mike, Gabry Ponte</option>
+            <option value="music/SaveTube.io - Without me - Ykayy x __J Rizzy (320 kbps).mp3">Without Me - Ykayy x __J Rizzy</option>
+            <option value="music/Tattoo - Loreen.mp3">tattoo</option>
+            <option value="music/DJ YA ODNA X BROKEN ANGEL.mp3">DJ YA ODNA X BROKEN ANGEL</option>
+            <option value="music/DJ The Drum x Ya Odna x Broken.mp3">DJ The Drum x Ya Odna x Broken</option>
+            <option value="music/DJ THE DRUM BREAKBEAT _ DJ ALWAYS LOVING.mp3">DJ THE DRUM BREAKBEAT _ DJ ALWAYS LOVING</option>
+            <option value="DJ BROKEN ANGEL X JEDAG JEDUG V3.mp3">DJ BROKEN ANGEL X JEDAG JEDUG V3</option>
+            <option value="music/DJ Always Loving You.mp3">DJ Always Loving You</option>
+            <option value="music/DIAMONDS _ We Found Love.mp3">DIAMONDS _ We Found Love</option>
+        </select>
+
+        <br />
+        <input type="range" id="progressBar" value="0" min="0" max="100" step="1" onchange="setProgress()">
+        <br />
+        
+        <label for="volumeBar"><h2>Volume:</h2></label>
+        <input type="range" id="volumeBar" value="100" min="0" max="100" step="1" onchange="setVolume()">
+
+        <br />
+        <button onclick="skipSong()">Skip</button>
+        <button onclick="togglePlayPause()">Play/Pause</button>
+        <button onclick="rewind()">Rewind 10s</button>
+        <button onclick="fastForward()">Fast Forward 10s</button>
+        <br />
+        <label for="search"><h2>Cari Lagu:</h2></label>
+        <input type="text" id="search" oninput="filterSongs()" placeholder="Cari...">
+
+        <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+        <div class="notification" id="notification">Error: Unable to play audio.</div>
+    </article>
+    <audio id="audioPlayer" controls style="display:none;"></audio>
+
+    <script>
+        var player = document.getElementById("audioPlayer");
+        var currentSongIndex = 0;
+
+        function changeSong() {
+            var playlist = document.getElementById("playlist");
+            player.src = playlist.value;
+            player.load();
+            player.play().catch(function(error) {
+                showNotification("Error: Unable to play audio.");
+            });
+        }
+
+        function skipSong() {
+            var playlist = document.getElementById("playlist");
+            currentSongIndex = (currentSongIndex + 1) % playlist.options.length;
+            playlist.selectedIndex = currentSongIndex;
+            changeSong();
+        }
+
+        function togglePlayPause() {
+            if (player.paused) {
+                player.play().catch(function(error) {
+                    showNotification("Error: Unable to play audio.");
+                });
+            } else {
+                player.pause();
+            }
+        }
+
+        function rewind() {
+            player.currentTime = Math.max(0, player.currentTime - 10);
+        }
+
+        function fastForward() {
+            player.currentTime = Math.min(player.duration, player.currentTime + 10);
+        }
+
+        player.ontimeupdate = function() {
+            var progressBar = document.getElementById("progressBar");
+            if (player.duration > 0) {
+                progressBar.value = (player.currentTime / player.duration) * 100;
+            }
+        };
+
+        function setProgress() {
+            var progressBar = document.getElementById("progressBar");
+            player.currentTime = (progressBar.value / 100) * player.duration;
+        }
+
+        function setVolume() {
+            var volumeBar = document.getElementById("volumeBar");
+            player.volume = volumeBar.value / 100;
+        }
+
+        function filterSongs() {
+            var input = document.getElementById('search').value.toLowerCase();
+            var options = document.querySelectorAll('#playlist option');
+            options.forEach(option => {
+                option.style.display = option.text.toLowerCase().includes(input) ? '' : 'none';
+            });
+        }
+
+        function showNotification(message) {
+            var notification = document.getElementById("notification");
+            notification.innerText = message;
+            notification.style.display = "block";
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
+        }
+
+        function toggleTheme() {
+            var body = document.body;
+            body.classList.toggle("dark-theme");
+            if (body.classList.contains("dark-theme")) {
+                body.style.backgroundColor = "#333";
+                body.style.color = "#fff";
+            } else {
+                body.style.backgroundColor = "#007bff";
+                body.style.color = "#fff";
+            }
+        }
+    </script>
+</body>
+</html>

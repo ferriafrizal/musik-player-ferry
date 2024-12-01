@@ -1,0 +1,199 @@
+body {
+    background: #2363c3;
+    overflow: hidden;
+    font-family: 'Baloo Bhaina', cursive;
+}
+
+h1 {
+    margin: 0;
+    padding: 1em 0 0;
+    color: #fff;
+}
+
+h2 {
+    color: #87edec;
+    font-weight: 300;
+    font-size: 28px;
+}
+
+article {
+    height: 486px;
+    text-align: center;
+    position: relative;
+    margin-bottom: 150px;
+    width: 100%;
+    z-index: 1;
+}
+
+.title {
+    margin: 40px 10px;
+}
+
+.spinner-wrap {
+    display: block;
+    width: 327px;
+    height: 327px;
+    position: relative;
+    left: 50%;
+    margin-left: -163px;
+    top: 19px;
+    cursor: pointer;
+}
+
+.spinner-outer {
+    display: block;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    left: 49%;
+    top: 4%;
+    margin-left: -163px;
+    border-radius: 50%;
+    background: url("../img/loading.png") center center no-repeat;
+}
+
+.spinner-center {
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    background: url("../img/circle-shape-outline.png") center center no-repeat;
+    border-radius: 50%;
+    left: 30%;
+    top: 34%;
+    margin: -99px;
+    pointer-events: none;
+}
+
+.play-sprite {
+    height: 47px;
+    width: 42px;
+    position: absolute;
+    margin: -35px 0 0 -35px;
+    background: url("../img/spritesheet.png") 0px 0px no-repeat;
+    left: 70%;
+    top: 73%;
+    margin: -99px;
+    pointer-events: none;
+}
+
+.playing {
+    background-position: -42px 0px;
+}
+
+.round {
+    -webkit-animation: spin-cw 5s linear infinite;
+    animation: spin-cw 5s linear infinite;
+}
+
+@keyframes spin-cw {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.ball {
+    display: none;
+}
+
+.pulse {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: 100px auto;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #ffffff;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    -webkit-animation: sk-bounce 0.5s linear 1;
+    animation: sk-bounce 0.5s linear 1;
+}
+
+.double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0); }
+    50% { -webkit-transform: scale(1.0); }
+}
+
+@keyframes sk-bounce {
+    0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }  
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+
+/* Gaya untuk playlist */
+label {
+    font-size: 18px;
+    color: #fff;
+    margin-right: 10px;
+}
+
+#playlist {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #87edec; /* Warna latar belakang yang sesuai */
+    color: #333; /* Warna teks */
+    transition: background-color 0.3s ease;
+}
+
+#playlist:hover {
+    background-color: #76d8e0; /* Warna latar belakang saat hover */
+}
+
+#playlist option {
+    padding: 10px;
+    color: #333;
+}
+
+/* Penyesuaian Responsif */
+@media (max-width: 600px) {
+    article {
+        height: auto; /* Mengubah tinggi untuk perangkat kecil */
+        margin-bottom: 50px; /* Mengurangi margin bawah */
+    }
+
+    .spinner-wrap {
+        width: 80%; /* Lebar untuk perangkat kecil */
+        height: auto; /* Tinggi otomatis */
+        margin-left: 0; /* Menghapus margin kiri */
+        top: 10px; /* Menyesuaikan posisi */
+    }
+
+    .spinner-outer {
+        width: 80%; /* Lebar spinner */
+        height: auto; /* Tinggi otomatis */
+        margin-left: 0; /* Menghapus margin kiri */
+    }
+
+    .play-sprite {
+        height: 30px; /* Mengubah ukuran play sprite */
+        width: 30px; /* Mengubah ukuran play sprite */
+    }
+
+    h2 {
+        font-size: 24px; /* Menyesuaikan ukuran font h2 */
+    }
+}
