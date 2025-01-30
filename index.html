@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
     <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* General Styles */
         body {
             font-family: 'Baloo Bhaina', cursive;
             background-color: #007bff;
@@ -16,80 +18,237 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .title {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+        /* Dark Theme */
+        body.dark-theme {
+            background-color: #333;
+            color: #fff;
         }
-        .player {
-            background-color: #e0f7fa; /* Warna latar belakang untuk pemutar */
+
+        .dark-theme .player {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .dark-theme select, .dark-theme input, .dark-theme button {
+            background-color: #555;
+            color: #fff;
+            border-color: #777;
+        }
+
+        .dark-theme .theme-toggle {
+            background-color: #fff;
             color: #333;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Title Section */
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .title h3 {
+            font-size: 1.2rem;
+            margin: 5px 0 0;
+        }
+
+        /* Player Container */
+        .player {
+            background-color: #e0f7fa;
+            color: #333;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             width: 90%;
             max-width: 600px;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
         }
-        h1, h2 { margin: 0; }
+
+        /* Dropdown and Inputs */
+        select, input[type="range"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
         select {
-            width: 100%; 
-            padding: 10px; 
-            margin: 10px 0; 
-            border: 1px solid #ddd; 
-            border-radius: 4px; 
-            background-color: #1E88E5; /* Warna biru untuk kotak pilih lagu */
-            color: #fff; /* Warna teks putih untuk kotak */
+            background-color: #1E88E5;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
         }
+
+        select:hover {
+            background-color: #1565c0;
+            transform: scale(1.02);
+        }
+
+        select:active {
+            transform: scale(0.98);
+        }
+
         select option {
-            background-color: #1E88E5; /* Warna latar belakang untuk opsi */
-            color: #fff; /* Warna teks putih untuk opsi */
+            background-color: #1E88E5;
+            color: #fff;
         }
-        input[type="range"], input[type="text"] {
-            width: 100%; 
-            padding: 10px; 
-            margin: 10px 0; 
-            border: 1px solid #ddd; 
-            border-radius: 4px;
-        }
-        button {
-            background-color: #007bff; 
-            color: #fff; 
-            border: none; 
-            border-radius: 4px; 
-            padding: 10px 15px; 
-            cursor: pointer; 
-            margin: 5px;
-        }
-        button:hover { background-color: #0056b3; }
-        #progressBar, #volumeBar {
-            width: 100%; 
-            appearance: none; 
-            height: 8px; 
-            background: #ddd; 
+
+        /* Progress Bar */
+        #progressBar {
+            width: 80%; /* Sesuaikan panjang Progress Bar di sini */
+            height: 6px;
+            background: #ddd;
             border-radius: 5px;
-        }
-        #volumeBar { margin-top: 10px; }
-        #progressBar::-webkit-slider-thumb, #volumeBar::-webkit-slider-thumb {
-            width: 20px; 
-            height: 20px; 
-            background: #007bff; 
-            border-radius: 50%; 
+            appearance: none;
+            margin: 15px 0;
+            outline: none;
             cursor: pointer;
         }
-        .notification {
-            display: none; 
-            margin-top: 10px; 
-            color: red;
+
+        #progressBar::-webkit-slider-thumb {
+            width: 16px;
+            height: 16px;
+            background: #007bff;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            appearance: none;
+            transition: background 0.3s, transform 0.2s;
         }
+
+        #progressBar::-webkit-slider-thumb:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        #progressBar::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #007bff;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        #progressBar::-moz-range-thumb:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Volume Bar */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        #volumeBar {
+            width: 80%; /* Sesuaikan panjang Volume Bar di sini */
+            height: 6px;
+            background: #ddd;
+            border-radius: 5px;
+            appearance: none;
+        }
+
+        #volumeBar::-webkit-slider-thumb {
+            width: 16px;
+            height: 16px;
+            background: #007bff;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #volumeBar::-webkit-slider-thumb:hover {
+            background: #0056b3;
+        }
+
+        /* Buttons */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button i {
+            font-size: 18px;
+        }
+
+        /* Theme Toggle Button */
         .theme-toggle {
-            cursor: pointer; 
-            margin: 10px; 
-            padding: 10px; 
-            background: #fff; 
-            color: #007bff; 
-            border: none; 
-            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .theme-toggle i {
+            font-size: 18px;
+        }
+
+        /* Notification */
+        .notification {
+            display: none;
+            margin-top: 10px;
+            color: red;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -125,19 +284,23 @@
         <input type="range" id="progressBar" value="0" min="0" max="100" step="1" onchange="setProgress()">
         <br />
         
-        <label for="volumeBar"><h2>Volume:</h2></label>
-        <input type="range" id="volumeBar" value="100" min="0" max="100" step="1" onchange="setVolume()">
+        <div class="volume-container">
+            <label for="volumeBar"><h2>Volume:</h2></label>
+            <input type="range" id="volumeBar" value="100" min="0" max="100" step="1" onchange="setVolume()">
+        </div>
 
-        <br />
-        <button onclick="skipSong()">Skip</button>
-        <button onclick="togglePlayPause()">Play/Pause</button>
-        <button onclick="rewind()">Rewind 10s</button>
-        <button onclick="fastForward()">Fast Forward 10s</button>
+        <div class="button-container">
+            <button onclick="rewind()"><i class="fas fa-backward"></i></button>
+            <button onclick="togglePlayPause()"><i class="fas fa-play"></i></button>
+            <button onclick="skipSong()"><i class="fas fa-forward"></i></button>
+            <button onclick="playRandom()"><i class="fas fa-random"></i></button>
+        </div>
+
         <br />
         <label for="search"><h2>Cari Lagu:</h2></label>
         <input type="text" id="search" oninput="filterSongs()" placeholder="Cari...">
 
-        <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+        <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
         <div class="notification" id="notification">Error: Unable to play audio.</div>
     </article>
     <audio id="audioPlayer" controls style="display:none;"></audio>
@@ -145,6 +308,11 @@
     <script>
         var player = document.getElementById("audioPlayer");
         var currentSongIndex = 0;
+
+        // Auto-play next song
+        player.addEventListener("ended", function() {
+            skipSong();
+        });
 
         function changeSong() {
             var playlist = document.getElementById("playlist");
@@ -158,6 +326,13 @@
         function skipSong() {
             var playlist = document.getElementById("playlist");
             currentSongIndex = (currentSongIndex + 1) % playlist.options.length;
+            playlist.selectedIndex = currentSongIndex;
+            changeSong();
+        }
+
+        function playRandom() {
+            var playlist = document.getElementById("playlist");
+            currentSongIndex = Math.floor(Math.random() * playlist.options.length);
             playlist.selectedIndex = currentSongIndex;
             changeSong();
         }
@@ -217,13 +392,6 @@
         function toggleTheme() {
             var body = document.body;
             body.classList.toggle("dark-theme");
-            if (body.classList.contains("dark-theme")) {
-                body.style.backgroundColor = "#333";
-                body.style.color = "#fff";
-            } else {
-                body.style.backgroundColor = "#007bff";
-                body.style.color = "#fff";
-            }
         }
     </script>
 </body>
